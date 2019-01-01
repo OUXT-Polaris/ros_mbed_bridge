@@ -16,6 +16,7 @@ add_message_files(
   Cmd.msg
   Ack.msg
   HeartBeat.msg
+  HeartBeatStatus.msg
 )
 
 generate_messages(
@@ -38,6 +39,7 @@ add_library(udp_server src/udp_server.cpp)
 
 add_executable(ros_mbed_bridge_node src/ros_mbed_bridge_node.cpp src/ros_mbed_bridge.cpp)
 target_link_libraries(ros_mbed_bridge_node ${catkin_LIBRARIES} udp_server udp_client)
+add_dependencies(ros_mbed_bridge_node ros_mbed_bridge_generate_messages_cpp)
 
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
