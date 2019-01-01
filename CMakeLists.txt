@@ -36,6 +36,9 @@ add_library(udp_client src/udp_client.cpp)
 
 add_library(udp_server src/udp_server.cpp)
 
+add_executable(ros_mbed_bridge_node src/ros_mbed_bridge_node.cpp src/ros_mbed_bridge.cpp)
+target_link_libraries(ros_mbed_bridge_node ${catkin_LIBRARIES} udp_server udp_client)
+
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
