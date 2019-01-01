@@ -32,7 +32,21 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_library(udp_client src/udp_client.cpp)
+
+add_library(udp_server src/udp_server.cpp)
+
+install(DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+
 foreach(dir launch msg)
   install(DIRECTORY ${dir}/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
+
+install(TARGETS udp_client udp_server
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
