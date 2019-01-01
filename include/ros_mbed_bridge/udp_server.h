@@ -5,12 +5,12 @@
 #include <functional>
 #include <vector>
 #include <mutex>
+#include <iostream>
 
 //headers in boost
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include <boost/bind.hpp>
 #include <boost/shared_ptr.hpp>
 
 #define BUFFER_SIZE 1024
@@ -20,11 +20,11 @@ class UdpServer
 public:
     UdpServer(int port);
     ~UdpServer();
-    void registerCallback(std::function<void(boost::property_tree::ptree)> func);
+    void registerCallback(std::function<void(std::string)> func);
     void run();
     const int port;
 private:
-    std::vector<std::function<void(boost::property_tree::ptree)> > callback_funcs_;
+    std::vector<std::function<void(std::string)> > callback_funcs_;
     boost::array<char,BUFFER_SIZE> recv_buf_;
     std::mutex mtx_;
     void receive(const boost::system::error_code&, std::size_t len);

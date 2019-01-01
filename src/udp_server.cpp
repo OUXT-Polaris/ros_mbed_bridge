@@ -31,7 +31,7 @@ void UdpServer::run()
     return;
 }
 
-void UdpServer::registerCallback(std::function<void(boost::property_tree::ptree)> func)
+void UdpServer::registerCallback(std::function<void(std::string)> func)
 {
     mtx_.lock();
     callback_funcs_.push_back(func);
@@ -41,14 +41,10 @@ void UdpServer::registerCallback(std::function<void(boost::property_tree::ptree)
 
 void UdpServer::receive(const boost::system::error_code&, std::size_t len)
 {
-    std::string recv_string = recv_buf_.data();
-    using namespace boost::property_tree;
-    ptree pt;
-    read_json(recv_string, pt);
     for(auto func_ptr = callback_funcs_.begin(); func_ptr != callback_funcs_.end(); func_ptr++)
     {
-        std::function<void(boost::property_tree::ptree)> func = *func_ptr;
-        func(pt);
+        std::function<void(std::string)> func = *func_ptr;
+        func(recv_buf_.data());
     }
     return;
 }
